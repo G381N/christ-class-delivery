@@ -1,0 +1,130 @@
+# Christ Class Delivery App
+
+A web-based food delivery application designed for Christ University students to order food directly to their classes. This application transforms the original command-line Go program into a modern web application with a responsive UI and concurrent backend processing.
+
+## Features
+
+- **User-friendly web interface** - HTML/CSS frontend with responsive design
+- **Real-time order processing** - Backend powered by Go with goroutines and channels
+- **Student authentication** - Enter student details for personalized ordering
+- **Menu browsing** - View and select from available food items
+- **Order management** - Add items to cart, adjust quantities, and review before ordering
+- **Order tracking** - Follow your order status in real-time
+- **Automatic calculations** - GST and convenience charges calculated automatically
+
+## Technologies Used
+
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: Go (Golang)
+- **Concurrency**: Goroutines and Channels
+- **API**: RESTful API endpoints for communication between frontend and backend
+
+## Installation
+
+### Prerequisites
+
+- Go 1.16 or higher
+- Web browser (Chrome, Firefox, Safari, or Edge)
+
+### Steps
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/yourusername/christ-class-delivery.git
+cd christ-class-delivery
+```
+
+2. **Create the directory structure**
+
+```bash
+mkdir -p static/css static/js
+```
+
+3. **Create the frontend files**
+
+Create the file `static/index.html` and copy the HTML content from the provided frontend code.
+
+4. **Create the backend file**
+
+Create `main.go` in the root directory and copy the provided Go backend code.
+
+5. **Build and run the application**
+
+```bash
+go build -o christ-delivery
+./christ-delivery
+```
+
+On Windows:
+```bash
+go build -o christ-delivery.exe
+christ-delivery.exe
+```
+
+6. **Access the application**
+
+Open your web browser and navigate to:
+```
+http://localhost:8080
+```
+
+## Project Structure
+
+```
+christ-class-delivery/
+├── main.go            # Go backend application with goroutines and channels
+├── static/            # Static files directory
+│   └── index.html     # HTML/CSS/JS frontend interface
+└── README.md          # Project documentation
+```
+
+## How It Works
+
+### Frontend
+
+The frontend is a single-page application that provides:
+- Student information input form
+- Interactive menu display
+- Shopping cart functionality
+- Order summary and confirmation
+
+### Backend
+
+The backend Go application implements:
+- RESTful API endpoints for menu retrieval, order placement, and status checking
+- Concurrent order processing using goroutines
+- Inter-process communication using channels
+- Status updates and notifications through dedicated workers
+
+### Concurrency Model
+
+The application uses four concurrent goroutines:
+1. **Order Processor**: Handles new orders and simulates the preparation process
+2. **Status Updater**: Updates order status during processing
+3. **Order Finalizer**: Completes order processing and marks orders as delivered
+4. **Notification Handler**: Manages system notifications
+
+## Development
+
+### Extending the Menu
+
+To add new items to the menu, update the `foodMenu` array in both the frontend JavaScript and backend Go code.
+
+### Customizing Styling
+
+The CSS styles are embedded in the HTML file. You can extract them to a separate CSS file in the `static/css` directory for better organization.
+
+### Adding New Features
+
+Some ideas for extending the application:
+- User authentication system
+- Order history tracking
+- Payment integration
+- Delivery time estimation
+- Admin dashboard for restaurant staff
+
+## Credits
+
+- Original CLI application developed by Gebin George
+- Web application adaptation includes goroutines and channels implementation

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details - Christ Class Delivery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4b2e83;
+            --primary-dark: #371f65;
+            --secondary: #0056b3;
+            --accent: #6c63ff;
+            --gradient: linear-gradient(135deg, #4b2e83, #0056b3);
+            --gradient-hover: linear-gradient(135deg, #371f65, #004494);
+            --success: #00c853;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --radius: 12px;
+        }
+
+        body {
+            background: var(--gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .details-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .form-group {
+            margin: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: white;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(75, 46, 131, 0.1);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .input-error {
+            border-color: var(--danger);
+        }
+
+        .input-success {
+            border-color: var(--success);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            margin-top: 2rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--gradient);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(75, 46, 131, 0.3);
+        }
+
+        @media (min-width: 768px) {
+            .details-card {
+                padding: 3.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .form-group.full-width {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+
+            .details-card {
+                padding: 2rem;
+            }
+
+            .form-grid {
+                gap: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="details-card">
+            <div class="header">
+                <h1>Student Details</h1>
+                <p class="subtitle">Please fill in your details to continue ordering</p>
+            </div>
+            
+            <form id="details-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" required>
+                        <div class="error-message" id="name-error">Please enter your full name</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regNo">Registration Number</label>
+                        <input type="text" id="regNo" placeholder="7 digit number" required maxlength="7">
+                        <div class="error-message" id="regNo-error">Please enter a valid 7-digit registration number</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="block">Block</label>
+                        <select id="block" required>
+                            <option value="">Select Block</option>
+                            <option value="Central Block">Central Block</option>
+                            <option value="Audi Block">Audi Block</option>
+                            <option value="Junior College">Junior College</option>
+                            <option value="Block 1">Block 1</option>
+                            <option value="Block 2">Block 2</option>
+                            <option value="Block 3">Block 3</option>
+                            <option value="Block 4">Block 4</option>
+                            <option value="RND Block">RND Block</option>
+                        </select>
+                        <div class="error-message" id="block-error">Please select your block</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="room">Room Number</label>
+                        <input type="text" id="room" placeholder="3 digit number" required maxlength="3">
+                        <div class="error-message" id="room-error">Please enter a valid 3-digit room number</div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="10 digit number" required maxlength="10">
+                        <div class="error-message" id="phone-error">Please enter a valid 10-digit phone number</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="submit-btn">Continue to Menu</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('details-form');
+            const inputs = {
+                name: document.getElementById('name'),
+                regNo: document.getElementById('regNo'),
+                block: document.getElementById('block'),
+                room: document.getElementById('room'),
+                phone: document.getElementById('phone')
+            };
+
+            // Validation patterns
+            const patterns = {
+                name: /^[a-zA-Z\s]{2,50}$/,
+                regNo: /^\d{7}$/,
+                room: /^\d{3}$/,
+                phone: /^\d{10}$/
+            };
+
+            // Real-time validation
+            Object.keys(inputs).forEach(key => {
+                const input = inputs[key];
+                const errorElement = document.getElementById(`${key}-error`);
+
+                input.addEventListener('input', () => {
+                    validateField(key, input, errorElement);
+                });
+
+                input.addEventListener('blur', () => {
+                    validateField(key, input, errorElement);
+                });
+            });
+
+            function validateField(fieldName, input, errorElement) {
+                let isValid = true;
+                input.classList.remove('input-error', 'input-success');
+
+                if (fieldName === 'block') {
+                    isValid = input.value !== '';
+                } else {
+                    isValid = patterns[fieldName].test(input.value);
+                }
+
+                if (!isValid) {
+                    input.classList.add('input-error');
+                    errorElement.style.display = 'block';
+                } else {
+                    input.classList.add('input-success');
+                    errorElement.style.display = 'none';
+                }
+
+                return isValid;
+            }
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Validate all fields
+                let isValid = true;
+                Object.keys(inputs).forEach(key => {
+                    const input = inputs[key];
+                    const errorElement = document.getElementById(`${key}-error`);
+                    if (!validateField(key, input, errorElement)) {
+                        isValid = false;
+                    }
+                });
+
+                if (isValid) {
+                    const studentDetails = {
+                        name: inputs.name.value,
+                        regNo: inputs.regNo.value,
+                        block: inputs.block.value,
+                        room: inputs.room.value,
+                        phone: inputs.phone.value
+                    };
+
+                    sessionStorage.setItem('studentDetails', JSON.stringify(studentDetails));
+                    window.location.href = '/menu';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

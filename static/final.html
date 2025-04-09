@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - Christ Class Delivery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        :root {
+            --primary: #4b2e83;  /* Purple */
+            --primary-dark: #371f65;
+            --secondary: #0056b3; /* Blue */
+            --accent: #6c63ff;   /* Light Purple */
+            --gradient: linear-gradient(135deg, #4b2e83, #0056b3);
+            --gradient-hover: linear-gradient(135deg, #371f65, #004494);
+            --success: #00c853;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+
+        body {
+            background: var(--gradient);
+            color: var(--dark);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .confirmation-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: gap 0.5s ease;
+        }
+
+        .confirmation-header {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid;
+            border-image: var(--gradient);
+            border-image-slice: 1;
+            height: auto;
+            transition: all 0.5s ease;
+        }
+
+        .confirmation-header.fade-out {
+            height: 0;
+            opacity: 0;
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            animation: scale-in 0.5s ease;
+            transition: opacity 0.5s ease;
+        }
+
+        .timer-container {
+            grid-column: 1 / -1;
+            margin: 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(75, 46, 131, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .timer-divider {
+            width: 2px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, var(--primary), transparent);
+            border-radius: 1px;
+        }
+
+        .timer {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+            line-height: 1;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .timer-info {
+            text-align: left;
+            margin-left: 1rem;
+        }
+
+        .delivery-info {
+            margin: 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(75, 46, 131, 0.1);
+            text-align: left;
+        }
+
+        .delivery-info h3 {
+            color: var(--primary);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .delivery-details {
+            margin: 0.5rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .order-items {
+            margin-top: 0.5rem;
+        }
+
+        .order-item {
+            padding: 0.5rem;
+            border-bottom: 1px dashed rgba(75, 46, 131, 0.2);
+            display: flex;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item:hover {
+            background: rgba(75, 46, 131, 0.05);
+        }
+
+        @keyframes scale-in {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .btn {
+            grid-column: 1 / -1;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--gradient);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--gradient-hover);
+            transform: translateY(-2px);
+        }
+
+        .confirmation-message {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            margin: 0.5rem 0;
+        }
+
+        .confirmation-message.fade-out,
+        .success-icon.fade-out {
+            opacity: 0;
+            margin: 0;
+            height: 0;
+        }
+
+        .order-summary {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .order-summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+
+        .order-summary-row.total {
+            font-weight: 600;
+            color: var(--primary);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.1rem;
+            border-top: 2px solid #eee;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .timer {
+                font-size: 2.5rem;
+            }
+
+            body {
+                padding: 0.5rem;
+            }
+        }
+
+        .confirmation-card.content-up {
+            gap: 1rem;
+        }
+
+        .order-details {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-items {
+            margin: 1.5rem 0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-summary {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .summary-row.total {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .btn-download {
+            margin-top: 1.5rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(75, 46, 131, 0.2);
+        }
+
+        .btn-download:hover {
+            background: var(--gradient-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(75, 46, 131, 0.3);
+        }
+
+        .btn-download i {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="confirmation-card">
+            <div class="confirmation-header">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h1 class="confirmation-message">Order Confirmed!</h1>
+                <p class="confirmation-message">Your order has been placed successfully.</p>
+            </div>
+
+            <div class="timer-container">
+                <div class="timer" id="countdown">17:00</div>
+                <div class="timer-divider"></div>
+                <div class="timer-info">
+                    <h2>Estimated Delivery</h2>
+                    <p>Your order will arrive shortly</p>
+                </div>
+            </div>
+
+            <div class="delivery-info">
+                <h3><i class="fas fa-info-circle"></i> Delivery Details</h3>
+                <div class="delivery-details" id="delivery-details">
+                    <!-- Student details will be inserted here -->
+                </div>
+                <button class="btn btn-download" onclick="downloadBill()">
+                    <i class="fas fa-download"></i> Download Bill
+                </button>
+            </div>
+
+            <div class="delivery-info">
+                <h3><i class="fas fa-utensils"></i> Order Summary</h3>
+                <div class="order-items" id="orderItems">
+                    <!-- Order items will be inserted here -->
+                </div>
+                <div class="order-summary" id="orderSummary">
+                    <!-- Order summary will be inserted here -->
+                </div>
+            </div>
+
+            <a href="/" class="btn">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const orderDetails = JSON.parse(sessionStorage.getItem('orderDetails'));
+            const studentDetails = JSON.parse(sessionStorage.getItem('studentDetails'));
+
+            if (!orderDetails || !studentDetails) {
+                window.location.href = '/';
+                return;
+            }
+
+            // Display delivery details
+            const deliveryDetails = document.getElementById('delivery-details');
+            deliveryDetails.innerHTML = `
+                Name: ${studentDetails.name}<br>
+                Reg No.: ${studentDetails.regNo}<br>
+                Block: ${studentDetails.block}<br>
+                Room: ${studentDetails.room}<br>
+                Phone: ${studentDetails.phone}
+            `;
+
+            // Display order items
+            const orderItemsContainer = document.getElementById('orderItems');
+            orderDetails.items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'order-item';
+                itemElement.innerHTML = `
+                    <span>${item.title} × ${item.quantity}</span>
+                    <span>Rs. ${(item.price * item.quantity).toFixed(2)}</span>
+                `;
+                orderItemsContainer.appendChild(itemElement);
+            });
+
+            // Display order summary
+            const orderSummaryContainer = document.getElementById('orderSummary');
+            const { summary } = orderDetails;
+            orderSummaryContainer.innerHTML = `
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span>Rs. ${summary.subtotal.toFixed(2)}</span>
+                </div>
+                <div class="summary-row">
+                    <span>GST (18%):</span>
+                    <span>Rs. ${summary.gst.toFixed(2)}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Convenience Fee:</span>
+                    <span>Rs. ${summary.convenience.toFixed(2)}</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span>Rs. ${summary.total.toFixed(2)}</span>
+                </div>
+            `;
+
+            // Fade out confirmation message and success icon after 3 seconds
+            setTimeout(() => {
+                document.querySelector('.confirmation-header').classList.add('fade-out');
+                document.querySelector('.success-icon').classList.add('fade-out');
+                document.querySelectorAll('.confirmation-message').forEach(el => {
+                    el.classList.add('fade-out');
+                });
+                document.querySelector('.confirmation-card').classList.add('content-up');
+            }, 3000);
+
+            // Countdown timer
+            let timeLeft = orderDetails.deliveryTime * 60 || 1020; // 17 minutes in seconds
+            const countdownEl = document.getElementById('countdown');
+
+            const timer = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    countdownEl.textContent = "Delivered!";
+                } else {
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    countdownEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    timeLeft--;
+                }
+            }, 1000);
+        });
+
+        async function downloadBill() {
+            const studentDetails = JSON.parse(sessionStorage.getItem('studentDetails'));
+            const orderDetails = JSON.parse(sessionStorage.getItem('orderDetails'));
+
+            if (!studentDetails || !orderDetails) {
+                alert('Error: Order details not found');
+                return;
+            }
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Set font
+                doc.setFont("helvetica", "bold");
+                
+                // Header
+                doc.setFontSize(24);
+                doc.setTextColor(75, 46, 131);
+                doc.text("ChristCravings", 105, 20, { align: "center" });
+                
+                doc.setFontSize(12);
+                doc.setTextColor(108, 99, 255);
+                doc.text("Delivering Happiness to Your Classroom", 105, 30, { align: "center" });
+
+                // Line separator
+                doc.setLineWidth(0.5);
+                doc.line(20, 35, 190, 35);
+
+                // Customer Details
+                doc.setFontSize(14);
+                doc.setTextColor(0, 0, 0);
+                doc.text("Delivery Details", 20, 45);
+
+                doc.setFontSize(12);
+                doc.setFont("helvetica", "normal");
+                doc.text([
+                    `Name: ${studentDetails.name}`,
+                    `Registration Number: ${studentDetails.regNo}`,
+                    `Block: ${studentDetails.block}`,
+                    `Room: ${studentDetails.room}`,
+                    `Phone: ${studentDetails.phone}`
+                ], 20, 55);
+
+                // Order Details
+                doc.setFont("helvetica", "bold");
+                doc.text("Order Details", 20, 90);
+                
+                const tableColumns = ["Item", "Quantity", "Price", "Total"];
+                const tableRows = orderDetails.items.map(item => [
+                    item.title,
+                    item.quantity,
+                    `Rs. ${item.price.toFixed(2)}`,
+                    `Rs. ${(item.price * item.quantity).toFixed(2)}`
+                ]);
+
+                doc.autoTable({
+                    head: [tableColumns],
+                    body: tableRows,
+                    startY: 95,
+                    theme: 'grid',
+                    headStyles: {
+                        fillColor: [75, 46, 131],
+                        textColor: 255,
+                        fontSize: 11
+                    },
+                    styles: {
+                        fontSize: 10,
+                        cellPadding: 5
+                    },
+                    columnStyles: {
+                        0: { cellWidth: 60 },
+                        1: { cellWidth: 30, halign: 'center' },
+                        2: { cellWidth: 45, halign: 'right' },
+                        3: { cellWidth: 45, halign: 'right' }
+                    }
+                });
+
+                // Bill Summary
+                const { summary } = orderDetails;
+                const startY = doc.previousAutoTable.finalY + 10;
+
+                doc.autoTable({
+                    body: [
+                        ["Subtotal", `Rs. ${summary.subtotal.toFixed(2)}`],
+                        ["GST (18%)", `Rs. ${summary.gst.toFixed(2)}`],
+                        ["Convenience Fee", `Rs. ${summary.convenience.toFixed(2)}`],
+                        ["Total", `Rs. ${summary.total.toFixed(2)}`]
+                    ],
+                    startY: startY,
+                    theme: 'plain',
+                    styles: {
+                        fontSize: 10,
+                        cellPadding: 4
+                    },
+                    columnStyles: {
+                        0: { cellWidth: 140 },
+                        1: { cellWidth: 40, halign: 'right' }
+                    },
+                    foot: [["Total Amount", `Rs. ${summary.total.toFixed(2)}`]],
+                    footStyles: {
+                        fillColor: [75, 46, 131],
+                        textColor: 255,
+                        fontSize: 12,
+                        fontStyle: 'bold'
+                    }
+                });
+
+                // Footer
+                doc.setFontSize(10);
+                doc.setTextColor(108, 99, 255);
+                doc.text("Developed by Gebin George", 105, 270, { align: "center" });
+                doc.text("Christ (Deemed to be University), Bangalore", 105, 275, { align: "center" });
+
+                // Save the PDF
+                const timestamp = new Date().toLocaleString().replace(/[/:]/g, '-');
+                doc.save(`ChristCravings-Bill-${timestamp}.pdf`);
+
+                // Move the sessionStorage removal here, after successful PDF generation
+                sessionStorage.removeItem('orderDetails');
+                sessionStorage.removeItem('studentDetails');
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert('Error generating PDF. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html> 

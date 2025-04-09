@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christ Class Delivery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4b2e83;  /* Purple */
+            --primary-dark: #371f65;
+            --secondary: #0056b3; /* Blue */
+            --accent: #6c63ff;   /* Light Purple */
+            --gradient: linear-gradient(135deg, #4b2e83, #0056b3);
+            --gradient-hover: linear-gradient(135deg, #371f65, #004494);
+            --success: #00c853;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --radius: 12px;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: var(--gradient);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .welcome-card {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--radius);
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            align-items: center;
+        }
+
+        .content-section {
+            text-align: left;
+        }
+
+        .image-section {
+            position: relative;
+            height: 100%;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-image:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .welcome-icon {
+            font-size: 3.5rem;
+            margin-right: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            margin-top: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature {
+            padding: 1.8rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius);
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .feature:hover::before {
+            opacity: 1;
+        }
+
+        .feature:hover h3,
+        .feature:hover p {
+            color: white;
+        }
+
+        .feature:hover i {
+            background: white;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            transition: color 0.3s ease;
+        }
+
+        .feature p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .btn-container {
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(75, 46, 131, 0.3);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(75, 46, 131, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--gradient-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(75, 46, 131, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+
+        @media (max-width: 1024px) {
+            .welcome-card {
+                grid-template-columns: 1fr;
+            }
+
+            .content-section {
+                text-align: center;
+            }
+
+            .features {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .image-section {
+                order: -1;
+            }
+
+            .hero-image {
+                max-height: 300px;
+            }
+
+            .btn {
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .welcome-card {
+                padding: 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .welcome-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modal styles */
+        .about-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .about-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .about-modal.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-body {
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Adjust main content for navbar */
+        .container {
+            padding-top: 80px;
+        }
+
+        .modal-body h3 {
+            color: var(--primary);
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.2rem;
+        }
+
+        .modal-body ul, .modal-body ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-body li {
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-body ul ul {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+        }
+
+        .tech-stack, .project-features, .project-flow {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+        }
+
+        .modal-content {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        .go-implementation, .code-structure {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+        }
+
+        .modal-body ul ul {
+            margin-left: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .modal-body strong {
+            color: var(--primary);
+        }
+
+        .modal-body li ul li {
+            color: var(--gray);
+            margin-bottom: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-brand">ChristCravings</a>
+        <div class="nav-links">
+            <a href="#" class="nav-link" onclick="showAboutModal()">About Project</a>
+            <a href="https://g381n.github.io/GebinGeorge/Portfolio/index.html" class="nav-link" target="_blank">About Developer</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="welcome-card">
+            <div class="content-section">
+                <div class="header-content">
+                    <i class="fas fa-utensils welcome-icon"></i>
+                    <h1>Christ Class Delivery</h1>
+                </div>
+                <p class="subtitle">Order delicious food right to your classroom! No more waiting in long cafeteria lines or missing lunch during busy class schedules. We deliver fresh, hot meals directly to you.</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-clock"></i>
+                        <h3>Quick Delivery</h3>
+                        <p>Get your food delivered within 17 minutes right to your classroom</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-hamburger"></i>
+                        <h3>Fresh Food</h3>
+                        <p>Quality food from campus outlets with a variety of options</p>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <a href="/details" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i> Start Ordering Now
+                    </a>
+                </div>
+            </div>
+            
+            <div class="image-section">
+                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600" 
+                     alt="Delicious Food"
+                     class="hero-image">
+            </div>
+        </div>
+    </div>
+
+    <div class="about-modal" id="aboutModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="hideAboutModal()">&times;</button>
+            <h2>About ChristCravings Project</h2>
+            <div class="modal-body">
+                <div class="tech-stack">
+                    <h3>Backend Implementation (Go)</h3>
+                    <ul>
+                        <li><strong>Server Architecture:</strong>
+                            <ul>
+                                <li>Built using Go's net/http package</li>
+                                <li>Goroutines for concurrent request handling</li>
+                                <li>Multiplexer for route management</li>
+                            </ul>
+                        </li>
+                        <li><strong>Concurrency Features:</strong>
+                            <ul>
+                                <li>Order processing using goroutines</li>
+                                <li>Channel-based communication for order status updates</li>
+                                <li>Concurrent session management</li>
+                            </ul>
+                        </li>
+                        <li><strong>Session Handling:</strong>
+                            <ul>
+                                <li>Secure cookie-based sessions</li>
+                                <li>Concurrent map for session storage</li>
+                                <li>Automatic session cleanup using goroutines</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="go-implementation">
+                    <h3>Go-Specific Features</h3>
+                    <ul>
+                        <li><strong>Goroutines Implementation:</strong>
+                            <ul>
+                                <li>Each HTTP request handled in separate goroutine</li>
+                                <li>Background order processing with goroutines</li>
+                                <li>Concurrent file serving for static content</li>
+                            </ul>
+                        </li>
+                        <li><strong>Channel Usage:</strong>
+                            <ul>
+                                <li>Order status updates via channels</li>
+                                <li>Buffered channels for order queue management</li>
+                                <li>Context cancellation for request timeouts</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="project-flow">
+                    <h3>Backend Flow</h3>
+                    <ol>
+                        <li><strong>Request Handling:</strong>
+                            <ul>
+                                <li>Incoming requests spawn new goroutines</li>
+                                <li>Route-specific handlers process requests</li>
+                                <li>Static file serving with FileServer</li>
+                            </ul>
+                        </li>
+                        <li><strong>Session Management:</strong>
+                            <ul>
+                                <li>Concurrent session creation and validation</li>
+                                <li>Secure cookie handling</li>
+                                <li>Automatic session cleanup</li>
+                            </ul>
+                        </li>
+                        <li><strong>Order Processing:</strong>
+                            <ul>
+                                <li>Orders queued in buffered channels</li>
+                                <li>Worker goroutines process orders</li>
+                                <li>Status updates via channels</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="code-structure">
+                    <h3>Key Go Components</h3>
+                    <ul>
+                        <li><strong>Main Server:</strong>
+                            <ul>
+                                <li>HTTP server initialization</li>
+                                <li>Route configuration</li>
+                                <li>Static file handling</li>
+                            </ul>
+                        </li>
+                        <li><strong>Handlers:</strong>
+                            <ul>
+                                <li>Authentication middleware</li>
+                                <li>Session management</li>
+                                <li>Order processing</li>
+                            </ul>
+                        </li>
+                        <li><strong>Concurrent Features:</strong>
+                            <ul>
+                                <li>Order queue management</li>
+                                <li>Session cleanup</li>
+                                <li>Status updates</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAboutModal() {
+            const modal = document.getElementById('aboutModal');
+            modal.classList.add('show');
+        }
+
+        function hideAboutModal() {
+            const modal = document.getElementById('aboutModal');
+            modal.classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('aboutModal').addEventListener('click', (e) => {
+            if (e.target.id === 'aboutModal') {
+                hideAboutModal();
+            }
+        });
+    </script>
+</body>
+</html>
