@@ -1,0 +1,3 @@
+module CHRIST-CLASS-DELIVERY
+
+go 1.23.7
